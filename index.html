@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trustly provides enterprise-grade security solutions for Discord communities, featuring real-time threat detection and a public database for safer environments.">
+    <meta name="keywords" content="Discord security, threat intelligence, community protection, real-time alerts">
+    <title>Trustly - Enterprise Discord Security</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-card: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --border: rgba(255, 255, 255, 0.06);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: rgba(99, 102, 241, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 5%;
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        section {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.5rem;
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--accent);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            letter-spacing: 0.5px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .badge::before {
+            content: '🛡️';
+            font-size: 1rem;
+        }
+
+        h1 {
+            font-size: 5.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto 3.5rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1.1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(99, 102, 241, 0.08);
+            border-radius: 50px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.8) 0%, rgba(17, 17, 17, 0.4) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.6) 100%);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.8rem;
+            display: inline-block;
+            filter: grayscale(0.3);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-icon {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            margin-top: 5rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .stat:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.8rem;
+            letter-spacing: -1px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .database-section {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.8) 0%, rgba(17, 17, 17, 0.4) 100%);
+            border-radius: 24px;
+            padding: 5rem 4rem;
+            margin: 6rem 0;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .database-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .database-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .database-content h2 {
+            margin-bottom: 2rem;
+        }
+
+        .database-content p {
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+            line-height: 1.9;
+        }
+
+        footer {
+            background: var(--bg-secondary);
+            padding: 5rem 5% 2rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 4rem;
+            padding-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.8rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-top: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.8) 0%, rgba(17, 17, 17, 0.4) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+        }
+
+        .contact-card .feature-icon {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .contact-card a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .contact-card a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            section {
+                padding: 5rem 5%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .database-section {
+                padding: 3rem 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="logo">Trustly</div>
+        <ul class="nav-links">
+            <li><a href="#home" aria-label="Home section">Home</a></li>
+            <li><a href="#features" aria-label="Features section">Features</a></li>
+            <li><a href="#database" aria-label="Database section">Database</a></li>
+            <li><a href="#contact" aria-label="Contact section">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="badge">Enterprise Discord Security</div>
+        <h1>Safer Environment</h1>
+        <p>Advanced threat intelligence and real-time protection for Discord communities. Join thousands of servers using our public database to create safer spaces.</p>
+        <div class="cta-buttons">
+            <a href="#database" class="btn-primary" aria-label="Explore Database">Explore Database</a>
+            <a href="#contact" class="btn-secondary" aria-label="Get Started">Get Started</a>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="section-header reveal">
+            <div class="section-label">Features</div>
+            <h2>Built for Security</h2>
+            <p class="section-description">Comprehensive protection powered by community intelligence and cutting-edge detection systems.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">🛡️</div>
+                <h3>Real-Time Protection</h3>
+                <p>Advanced threat detection systems monitor your server 24/7, identifying and neutralizing risks before they impact your community.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">📊</div>
+                <h3>Public Database</h3>
+                <p>Access our comprehensive database of verified threats, bad actors, and malicious patterns shared across our network.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Alerts</h3>
+                <p>Receive immediate notifications when suspicious activity is detected, with detailed context for informed decision-making.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">🤝</div>
+                <h3>Community Driven</h3>
+                <p>Join a global network of Discord servers collaborating to identify threats and share security intelligence.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy Focused</h3>
+                <p>Enterprise-grade encryption and transparent data handling ensure your community's information remains secure.</p>
+            </div>
+
+            <div class="feature-card reveal">
+                <div class="feature-icon">⚙️</div>
+                <h3>Seamless Integration</h3>
+                <p>Deploy in minutes with our streamlined setup process. No complex configuration or technical expertise required.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="database">
+        <div class="database-section reveal">
+            <div class="database-content">
+                <div class="section-label">Database</div>
+                <h2>Powered by Intelligence</h2>
+                <p>Our public database aggregates threat data from thousands of Discord servers, creating a comprehensive security ecosystem. Real-time updates ensure you're always protected against the latest threats.</p>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">15K+</div>
+                        <div class="stat-label">Protected Servers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">2.5M+</div>
+                        <div class="stat-label">Threat Entries</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">99.99%</div>
+                        <div class="stat-label">Uptime SLA</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support Team</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header reveal">
+            <div class="section-label">Contact</div>
+            <h2>Get in Touch</h2>
+            <p class="section-description">Ready to protect your community? Our team is here to help you get started.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card reveal">
+                <div class="feature-icon">📧</div>
+                <h3>Email</h3>
+                <p><a href="mailto:support@trustly.example" aria-label="Email support">support@trustly.example</a></p>
+            </div>
+
+            <div class="contact-card reveal">
+                <div class="feature-icon">💬</div>
+                <h3>Discord</h3>
+                <p><a href="discord-server/index.html" aria-label="Join Discord Community">Join Our Community</a></p>
+            </div>
+
+            <div class="contact-card reveal">
+                <div class="feature-icon">📚</div>
+                <h3>Documentation</h3>
+                <p><a href="documentation/index.html" aria-label="View Documentation">View Docs</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Trustly</h3>
+                <p class="footer-description">Enterprise-grade security solutions for Discord communities. Protecting over 15,000 servers worldwide with real-time threat intelligence.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#home" aria-label="Home">Home</a></li>
+                    <li><a href="#features" aria-label="Features">Features</a></li>
+                    <li><a href="#database" aria-label="Database">Database</a></li>
+                    <li><a href="documentation/index.html" aria-label="Documentation">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="privacy-policy/index.html" aria-label="Privacy Policy">Privacy Policy</a></li>
+                    <li><a href="terms-of-service/index.html" aria-label="Terms of Service">Terms of Service</a></li>
+                    <li><a href="security/index.html" aria-label="Security">Security</a></li>
+                    <li><a href="compliance/index.html" aria-label="Compliance">Compliance</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="discord-server/index.html" aria-label="Discord Server">Discord Server</a></li>
+                    <li><a href="github/index.html" aria-label="GitHub">GitHub</a></li>
+                    <li><a href="twitter/index.html" aria-label="Twitter">Twitter</a></li>
+                    <li><a href="status/index.html" aria-label="Status">Status</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Trustly. All rights reserved. Built with security in mind.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Scroll reveal animation
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(reveal => revealObserver.observe(reveal));
+
+        // Create floating particles
+        function createParticles() {
+            const particleCount = 30;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(particle);
+                
+                // Animate particle
+                particle.animate([
+                    { transform: 'translateY(0) translateX(0)', opacity: 0 },
+                    { transform: 'translateY(-100vh) translateX(' + (Math.random() * 200 - 100) + 'px)', opacity: 0.6 },
+                    { transform: 'translateY(-200vh) translateX(' + (Math.random() * 300 - 150) + 'px)', opacity: 0 }
+                ], {
+                    duration: (Math.random() * 20000 + 15000),
+                    iterations: Infinity,
+                    delay: Math.random() * 5000
+                });
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>
