@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trustly - Discord Community Safety</title>
+    <title>Trustly - Free Discord Security Bot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,558 +13,1338 @@
         }
 
         :root {
-            --primary: #1f2937;
-            --accent: #3b82f6;
-            --light: #f9fafb;
-            --text: #374151;
-            --text-light: #6b7280;
-            --border: #e5e7eb;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            --blue: #3B82F6;
+            --blue-light: #60A5FA;
+            --blue-dark: #2563EB;
+            --dark: #0A0A0A;
+            --darker: #050505;
+            --gray: #A1A1AA;
+            --light-gray: #1A1A1A;
+            --border: #1F1F1F;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: var(--text);
-            background: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: white;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Navigation */
-        nav {
-            position: sticky;
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
             top: 0;
-            z-index: 1000;
-            background: #ffffff;
-            border-bottom: 1px solid var(--border);
-            padding: 1.2rem 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .nav-container {
-            max-width: 1280px;
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--blue-light);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 8s;
+        }
+
+        .orb-3 {
+            width: 600px;
+            height: 600px;
+            background: var(--blue-dark);
+            top: 40%;
+            left: 50%;
+            animation-delay: 16s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(100px, -80px) rotate(120deg); }
+            66% { transform: translate(-80px, 100px) rotate(240deg); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 5, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
+            font-size: 22px;
+            font-weight: 800;
             display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 40px;
             list-style: none;
-            gap: 2.5rem;
             align-items: center;
         }
 
-        .nav-links a {
-            color: var(--text);
+        nav a {
+            color: var(--gray);
             text-decoration: none;
+            font-size: 15px;
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        .nav-links a:hover {
-            color: var(--accent);
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--blue);
+            transition: width 0.3s ease;
         }
 
-        .nav-cta {
-            background: var(--accent);
+        nav a:hover {
+            color: white;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .btn-nav {
+            background: var(--blue);
             color: white !important;
-            padding: 0.65rem 1.5rem;
-            border-radius: 6px;
+            padding: 10px 24px;
+            border-radius: 8px;
             font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        .nav-cta:hover {
-            background: #2563eb;
-        }
-
-        .menu-toggle {
+        .btn-nav::after {
             display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
         }
 
-        /* Container */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            background: var(--blue-dark);
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
-            padding: 6rem 2rem;
-            background: linear-gradient(to bottom, #ffffff, #f3f4f6);
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 200px 60px 140px;
+            text-align: center;
+            z-index: 1;
         }
 
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            max-width: 1280px;
-            margin: 0 auto;
+        .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--blue-light);
+            margin-bottom: 32px;
+            animation: fadeInDown 0.8s ease;
+            backdrop-filter: blur(10px);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
+            font-size: 72px;
             font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--blue-light), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
-            font-size: 1.15rem;
-            color: var(--text-light);
-            margin-bottom: 2rem;
-            line-height: 1.8;
+            font-size: 22px;
+            color: var(--gray);
+            max-width: 750px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease 0.4s both;
         }
 
         .cta-group {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .btn {
-            padding: 0.9rem 2rem;
-            font-size: 0.95rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 0.8s ease 0.6s both;
         }
 
         .btn-primary {
-            background: var(--accent);
+            background: var(--blue);
             color: white;
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
         }
 
         .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+            background: var(--blue-dark);
         }
 
         .btn-secondary {
-            background: white;
-            color: var(--accent);
-            border: 2px solid var(--accent);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-secondary:hover {
-            background: var(--light);
+            border-color: var(--blue);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-3px);
         }
 
-        .hero-image {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            border-radius: 12px;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            font-size: 8rem;
+        /* Stats */
+        .stats {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 60px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            z-index: 1;
         }
 
-        /* Features Section */
+        .stat {
+            text-align: center;
+            padding: 40px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUpStagger 0.6s ease forwards;
+        }
+
+        .stat:nth-child(1) { animation-delay: 0.1s; }
+        .stat:nth-child(2) { animation-delay: 0.2s; }
+        .stat:nth-child(3) { animation-delay: 0.3s; }
+        .stat:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat:hover {
+            transform: translateY(-8px);
+            border-color: var(--blue);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .stat h3 {
+            font-size: 56px;
+            background: linear-gradient(135deg, var(--blue-light), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .stat p {
+            color: var(--gray);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Features */
         .features {
-            padding: 5rem 2rem;
-            background: #ffffff;
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 60px;
+            z-index: 1;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            color: var(--blue-light);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 56px;
+            margin-bottom: 20px;
             font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.2s forwards;
         }
 
         .section-title p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            max-width: 600px;
+            color: var(--gray);
+            font-size: 20px;
+            max-width: 700px;
             margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.4s forwards;
         }
 
-        .features-grid {
+        .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1280px;
-            margin: 0 auto;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
         }
 
-        .feature-card {
-            background: #f9fafb;
+        .feature {
+            background: rgba(10, 10, 10, 0.5);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            transition: all 0.3s;
+            border-radius: 20px;
+            padding: 48px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
-            transform: translateY(-2px);
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .feature:hover {
+            border-color: var(--blue);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+        }
+
+        .feature:hover::before {
+            opacity: 1;
         }
 
         .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 28px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            position: relative;
+            z-index: 1;
         }
 
-        .feature-card h3 {
-            font-size: 1.2rem;
+        .feature:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .feature-card p {
-            color: var(--text-light);
+        .feature p {
+            color: var(--gray);
             line-height: 1.7;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         /* How It Works */
         .how-it-works {
-            padding: 5rem 2rem;
-            background: var(--light);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1280px;
+            position: relative;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 120px 60px;
+            background: rgba(10, 10, 10, 0.3);
+            border-radius: 32px;
+            backdrop-filter: blur(10px);
+            z-index: 1;
         }
 
-        .step-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2.5rem;
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            margin-top: 80px;
+        }
+
+        .step {
             text-align: center;
+            position: relative;
+        }
+
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 100%;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--blue), transparent);
+        }
+
+        .step:last-child::after {
+            display: none;
         }
 
         .step-number {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background: var(--accent);
-            color: white;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
             font-weight: 800;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin: 0 auto 28px;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .step-card h4 {
-            font-size: 1.1rem;
+        .step:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        }
+
+        .step h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.8rem;
         }
 
-        .step-card p {
-            color: var(--text-light);
+        .step p {
+            color: var(--gray);
             line-height: 1.7;
+            font-size: 15px;
         }
 
-        /* CTA Banner */
-        .cta-banner {
-            padding: 4rem 2rem;
-            background: var(--primary);
-            color: white;
+        /* Commands */
+        .commands {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 60px;
+            z-index: 1;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 80px;
+        }
+
+        .command {
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .command:hover {
+            border-color: var(--blue);
+            transform: translateX(8px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .command-code {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--blue-light);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            white-space: nowrap;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .command-info h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .command-info p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Trust */
+        .trust {
+            position: relative;
+            max-width: 1000px;
+            margin: 120px auto;
+            padding: 0 60px;
             text-align: center;
+            z-index: 1;
         }
 
-        .cta-banner h2 {
-            font-size: 2.5rem;
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .trust-badge:hover {
+            transform: translateY(-8px);
+        }
+
+        .trust-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .trust-badge:hover .trust-icon {
+            border-color: var(--blue);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .trust-badge p {
+            color: var(--gray);
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* CTA */
+        .cta {
+            position: relative;
+            max-width: 1000px;
+            margin: 120px auto;
+            padding: 100px 80px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+            border-radius: 32px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotateSlow 25s linear infinite;
+        }
+
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
             font-weight: 800;
-            margin-bottom: 1rem;
+            letter-spacing: -1px;
         }
 
-        .cta-banner p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+        .cta p {
+            font-size: 20px;
             opacity: 0.95;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .cta-banner .btn-primary {
-            background: var(--accent);
+        .cta .btn-primary {
+            background: white;
+            color: var(--blue-dark);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* FAQ */
+        .faq {
+            position: relative;
+            max-width: 900px;
+            margin: 120px auto;
+            padding: 0 60px;
+            z-index: 1;
+        }
+
+        .faq-item {
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-item:hover {
+            border-color: var(--blue);
+            transform: translateX(8px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .faq-item h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .faq-item p {
+            color: var(--gray);
+            line-height: 1.8;
+            font-size: 15px;
         }
 
         /* Footer */
         footer {
-            background: #111827;
-            color: #d1d5db;
-            padding: 4rem 2rem 2rem;
+            position: relative;
+            border-top: 1px solid var(--border);
+            padding: 100px 60px 50px;
+            margin-top: 120px;
+            z-index: 1;
         }
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1280px;
+        .footer-content {
+            max-width: 1400px;
             margin: 0 auto;
-            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
         }
 
         .footer-col h4 {
-            color: white;
+            font-size: 15px;
+            margin-bottom: 24px;
             font-weight: 700;
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
+        }
+
+        .footer-col p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.8;
         }
 
         .footer-col ul {
             list-style: none;
         }
 
+        .footer-col li {
+            margin-bottom: 14px;
+        }
+
         .footer-col a {
-            color: #d1d5db;
+            color: var(--gray);
             text-decoration: none;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 0.7rem;
-            transition: color 0.3s;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
 
         .footer-col a:hover {
-            color: white;
+            color: var(--blue-light);
+            transform: translateX(4px);
+            display: inline-block;
         }
 
         .footer-bottom {
-            border-top: 1px solid #374151;
-            padding-top: 2rem;
-            text-align: center;
-            color: #9ca3af;
-            font-size: 0.9rem;
-            max-width: 1280px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-links a:hover {
+            border-color: var(--blue);
+            color: var(--blue-light);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUpStagger {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
+        @media (max-width: 1200px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 56px;
             }
 
-            .hero-content {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
                 grid-template-columns: 1fr;
             }
 
-            .hero-image {
+            .step::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
                 display: none;
             }
 
-            .section-title h2 {
-                font-size: 1.8rem;
+            .hero {
+                padding: 160px 30px 100px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 18px;
             }
 
             .cta-group {
                 flex-direction: column;
             }
 
-            .btn {
-                width: 100%;
+            .stats {
+                grid-template-columns: 1fr;
+                padding: 60px 30px;
+            }
+
+            .features, .commands, .how-it-works {
+                padding: 80px 30px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 24px;
                 text-align: center;
             }
 
-            .cta-banner h2 {
-                font-size: 1.8rem;
+            .section-title h2 {
+                font-size: 40px;
+            }
+
+            .cta {
+                padding: 60px 40px;
+            }
+
+            .cta h2 {
+                font-size: 36px;
+            }
+
+            nav {
+                padding: 20px 30px;
             }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <a href="index.html" class="logo">Trustly</a>
-            <button class="menu-toggle">☰</button>
-            <ul class="nav-links">
+    <div class="bg-gradient">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">T</div>
+                Trustly
+            </div>
+            <ul>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#how">How It Works</a></li>
-                <li><a href="terms.html">Terms</a></li>
-                <li><a href="privacy.html">Privacy</a></li>
-                <li><a href="#contact" class="nav-cta">Get Started</a></li>
+                <li><a href="#commands">Commands</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot" class="btn-nav">Add to Discord</a></li>
             </ul>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <div>
-                <h1>Server Safety Without Compromise</h1>
-                <p>Trustly provides Discord communities with intelligent moderation tools and threat intelligence. Keep your members safe while giving your staff complete control over enforcement decisions.</p>
-                <div class="cta-group">
-                    <button class="btn btn-primary">Request Demo</button>
-                    <button class="btn btn-secondary">Learn More</button>
-                </div>
+        <div class="badge">Free Forever · No Credit Card Required</div>
+        <h1>
+            Enterprise-Grade<br>
+            <span class="gradient-text">Discord Security</span>
+        </h1>
+        <p>Protect your community with AI-powered moderation, global ban sharing, and real-time threat detection. Trusted by over 15,000 servers worldwide.</p>
+        <div class="cta-group">
+            <a href="https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot" class="btn-primary">
+                Add to Discord
+            </a>
+            <a href="#features" class="btn-secondary">Learn More</a>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <h3>750K+</h3>
+            <p>Bad Actors Tracked</p>
+        </div>
+        <div class="stat">
+            <h3>15K+</h3>
+            <p>Servers Protected</p>
+        </div>
+        <div class="stat">
+            <h3>99.8%</h3>
+            <p>Detection Accuracy</p>
+        </div>
+        <div class="stat">
+            <h3>24/7</h3>
+            <p>Active Monitoring</p>
+        </div>
+    </section>
+
+    <section id="features" class="features reveal">
+        <div class="section-title">
+            <div class="section-label">Features</div>
+            <h2>Comprehensive Protection</h2>
+            <p>Every tool you need to keep your Discord server safe, secure, and thriving</p>
+        </div>
+        <div class="feature-grid">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Global Ban System</h3>
+                <p>Access our database of 750,000+ flagged users. Automatically prevent known bad actors from joining your server with real-time synchronization.</p>
             </div>
-            <div class="hero-image">
-                📊
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered Moderation</h3>
+                <p>Advanced machine learning algorithms detect toxic behavior, spam, and threats in real-time with industry-leading 99.8% accuracy.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <h3>Anti-Raid Protection</h3>
+                <p>Detect and stop coordinated attacks instantly with intelligent anti-raid systems, verification gates, and automated lockdown protocols.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Advanced Analytics</h3>
+                <p>Real-time dashboards with comprehensive insights into server activity, moderation patterns, and security metrics.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔍</div>
+                <h3>Smart Detection</h3>
+                <p>Multi-layered detection system identifies suspicious patterns, alt accounts, and coordinated abuse before it escalates.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚙️</div>
+                <h3>Custom Rules Engine</h3>
+                <p>Build sophisticated automod rules with custom filters, regex support, and automated responses tailored to your community needs.</p>
             </div>
         </div>
     </section>
 
-    <section id="features" class="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Comprehensive Moderation Tools</h2>
-                <p>Everything you need to run a safe, healthy Discord community</p>
+    <section class="how-it-works reveal">
+        <div class="section-title">
+            <div class="section-label">How It Works</div>
+            <h2>Get Protected in Minutes</h2>
+            <p>Simple setup process with powerful results</p>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Add to Discord</h3>
+                <p>Click the "Add to Discord" button, select your server, and grant the necessary permissions for full protection.</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚙️</div>
-                    <h3>Unified Dashboard</h3>
-                    <p>Manage all moderation activities from one intuitive dashboard. View logs, configure rules, and monitor trends in real-time.</p>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Configure Settings</h3>
+                <p>Use intuitive commands to customize protection levels, create custom rules, and set up automated responses.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Stay Protected</h3>
+                <p>Trustly immediately activates and begins protecting your server 24/7 with AI-powered monitoring and threat prevention.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="commands" class="commands reveal">
+        <div class="section-title">
+            <div class="section-label">Commands</div>
+            <h2>Powerful Yet Simple</h2>
+            <p>Intuitive commands for complete server control</p>
+        </div>
+        <div class="command-grid">
+            <div class="command">
+                <div>
+                    <div class="command-code">/setup</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Automated Enforcement</h3>
-                    <p>Set custom rules once. The bot enforces them consistently across your server with detailed audit trails for every action.</p>
+                <div class="command-info">
+                    <h4>Quick Setup</h4>
+                    <p>Interactive guided setup wizard to configure Trustly with optimized settings for your server size and needs.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Staff Management</h3>
-                    <p>Onboard moderators through a formal partnership agreement. Track individual actions and performance metrics for accountability.</p>
+            </div>
+            <div class="command">
+                <div>
+                    <div class="command-code">/ban</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>Advanced Analytics</h3>
-                    <p>Get detailed insights into community safety trends. Identify problem areas and measure the effectiveness of your moderation strategy.</p>
+                <div class="command-info">
+                    <h4>Global Ban</h4>
+                    <p>Ban users locally and automatically share with the global database to protect other communities worldwide.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3>Network Intelligence</h3>
-                    <p>Access threat data from the Trustly network. Identify and block problematic users before they join your community.</p>
+            </div>
+            <div class="command">
+                <div>
+                    <div class="command-code">/check</div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>Enterprise Security</h3>
-                    <p>Bank-grade encryption and security. Your data is protected with industry-leading standards and compliance certifications.</p>
+                <div class="command-info">
+                    <h4>User Lookup</h4>
+                    <p>Instantly check if a user is flagged in our global database with detailed history and risk assessment.</p>
+                </div>
+            </div>
+            <div class="command">
+                <div>
+                    <div class="command-code">/config</div>
+                </div>
+                <div class="command-info">
+                    <h4>Configuration</h4>
+                    <p>Fine-tune automod rules, filters, raid protection settings, and notification preferences with ease.</p>
+                </div>
+            </div>
+            <div class="command">
+                <div>
+                    <div class="command-code">/logs</div>
+                </div>
+                <div class="command-info">
+                    <h4>Audit Logs</h4>
+                    <p>Access comprehensive moderation logs with detailed analytics, user actions, and security event timelines.</p>
+                </div>
+            </div>
+            <div class="command">
+                <div>
+                    <div class="command-code">/verify</div>
+                </div>
+                <div class="command-info">
+                    <h4>Verification System</h4>
+                    <p>Deploy member verification gates to prevent bots, alts, and malicious users from accessing your server.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="how" class="how-it-works">
-        <div class="container">
-            <div class="section-title">
-                <h2>How It Works</h2>
-                <p>Get your server protected in minutes</p>
+    <section class="trust reveal">
+        <div class="section-title">
+            <div class="section-label">Trust & Security</div>
+            <h2>Built on Trust</h2>
+            <p>Enterprise-grade security trusted by communities worldwide</p>
+        </div>
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <div class="trust-icon">✓</div>
+                <p>Discord Verified</p>
             </div>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h4>Add the Bot</h4>
-                    <p>Invite Trustly to your Discord server and authorize the required permissions through our setup wizard.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h4>Configure Rules</h4>
-                    <p>Define your community's moderation standards. Set thresholds, enforcement responses, and exception rules tailored to your needs.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h4>Train Staff</h4>
-                    <p>Moderators sign the partnership agreement and get trained on using the dashboard and enforcement tools effectively.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">4</div>
-                    <h4>Monitor & Optimize</h4>
-                    <p>Watch your analytics dashboard. Trustly automatically enforces rules while your team makes high-level decisions and policy adjustments.</p>
-                </div>
+            <div class="trust-badge">
+                <div class="trust-icon">🔒</div>
+                <p>End-to-End Encrypted</p>
+            </div>
+            <div class="trust-badge">
+                <div class="trust-icon">⚡</div>
+                <p>99.9% Uptime</p>
+            </div>
+            <div class="trust-badge">
+                <div class="trust-icon">💚</div>
+                <p>Open Source Core</p>
             </div>
         </div>
     </section>
 
-    <section class="cta-banner">
-        <div class="container">
-            <h2>Ready to Transform Your Community?</h2>
-            <p>Join communities using Trustly to build safer, healthier Discord servers</p>
-            <button class="btn btn-primary">Request Demo</button>
+    <section class="cta">
+        <h2>Ready to Secure Your Server?</h2>
+        <p>Join over 15,000 Discord communities using Trustly to create safer, more welcoming spaces. Free forever with no limitations.</p>
+        <a href="https://discord.com/api/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=8&scope=bot" class="btn-primary">Add to Discord - It's Free</a>
+    </section>
+
+    <section id="faq" class="faq reveal">
+        <div class="section-title">
+            <div class="section-label">FAQ</div>
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-item">
+            <h3>Is Trustly really completely free?</h3>
+            <p>Yes! Trustly is 100% free forever with no hidden costs, premium tiers, or feature limitations. We believe every Discord community deserves access to professional-grade security tools regardless of size or budget.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What permissions does the bot require?</h3>
+            <p>Trustly requires standard moderation permissions including Manage Messages, Ban Members, Kick Members, and View Channels. We only request permissions that are essential for protection and security features.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How does the global ban database work?</h3>
+            <p>When you ban a user for serious violations, their information is anonymously added to our encrypted shared database. Other servers using Trustly receive real-time alerts when flagged users attempt to join, creating a network effect that protects everyone.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Will this impact server performance?</h3>
+            <p>No. Trustly is engineered for maximum performance with sub-second response times and minimal resource usage. Our distributed infrastructure ensures your server runs smoothly with zero latency impact.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Can I customize the bot's behavior?</h3>
+            <p>Absolutely! Trustly is highly customizable with flexible rule engines, custom filters, configurable automated actions, adjustable sensitivity levels, and personalized notification preferences to match your community's needs.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How is my server data handled?</h3>
+            <p>Your data is encrypted at rest and in transit using industry-standard protocols. We never sell or share your data with third parties. You can request complete data exports or deletion at any time through our privacy portal.</p>
         </div>
     </section>
 
     <footer>
-        <div class="footer-grid">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Trustly</h4>
+                <p>Professional Discord security made accessible for everyone. Protect your community with the power of shared intelligence, advanced AI moderation, and enterprise-grade security tools.</p>
+            </div>
             <div class="footer-col">
                 <h4>Product</h4>
                 <ul>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#how">How It Works</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#commands">Commands</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="https://docs.trustly.com">Documentation</a></li>
+                    <li><a href="/changelog">Changelog</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Company</h4>
+                <h4>Community</h4>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Support</a></li>
+                    <li><a href="https://discord.gg/trustly">Discord Server</a></li>
+                    <li><a href="https://github.com/trustly">GitHub</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/status">System Status</a></li>
+                    <li><a href="/support">Support</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="#">Security</a></li>
-                    <li><a href="#">Compliance</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">API Reference</a></li>
-                    <li><a href="#">Setup Guide</a></li>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Community</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/security">Security</a></li>
+                    <li><a href="/guidelines">Guidelines</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Trustly Inc. All rights reserved.</p>
+            <p>&copy; 2025 Trustly. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://twitter.com/trustly" aria-label="Twitter">𝕏</a>
+                <a href="https://discord.gg/trustly" aria-label="Discord">D</a>
+                <a href="https://github.com/trustly" aria-label="GitHub">G</a>
+            </div>
         </div>
     </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 100;
+                
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+
+        // Parallax effect for gradient orbs
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const orbs = document.querySelectorAll('.gradient-orb');
+            
+            orbs.forEach((orb, index) => {
+                const speed = 0.1 + (index * 0.05);
+                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Add subtle mouse move effect to features
+        const features = document.querySelectorAll('.feature');
+        
+        features.forEach(feature => {
+            feature.addEventListener('mousemove', (e) => {
+                const rect = feature.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                feature.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            });
+            
+            feature.addEventListener('mouseleave', () => {
+                feature.style.transform = '';
+            });
+        });
+    </script>
 </body>
 </html>
