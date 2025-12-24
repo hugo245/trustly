@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security - Trustly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #3B82F6;
+            --blue-light: #60A5FA;
+            --blue-dark: #2563EB;
+            --dark: #0A0A0A;
+            --darker: #050505;
+            --gray: #A1A1AA;
+            --border: #1F1F1F;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--blue-light);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(100px, -80px); }
+            66% { transform: translate(-80px, 100px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .content {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 150px 60px 100px;
+            z-index: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .page-label {
+            color: var(--blue-light);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .page-header h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .page-header p {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .security-card {
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        .security-card:hover {
+            border-color: var(--blue);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .security-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .security-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .security-card p {
+            color: var(--gray);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section ul {
+            margin-left: 24px;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+
+        .compliance-badges {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin: 60px 0;
+        }
+
+        .badge {
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 32px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            border-color: var(--blue);
+            transform: translateY(-4px);
+        }
+
+        .badge h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .badge p {
+            font-size: 14px;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid var(--blue);
+            padding: 32px;
+            border-radius: 12px;
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .highlight-box h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+            border-radius: 24px;
+            padding: 60px;
+            text-align: center;
+            margin: 80px 0;
+        }
+
+        .cta-box h2 {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .cta-box p {
+            font-size: 18px;
+            margin-bottom: 32px;
+            opacity: 0.95;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--blue-dark);
+            padding: 16px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            position: relative;
+            border-top: 1px solid var(--border);
+            padding: 60px 60px 40px;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .footer-col p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--blue-light);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 120px 30px 60px;
+            }
+
+            .page-header h1 {
+                font-size: 40px;
+            }
+
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .cta-box {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <div class="logo-icon">T</div>
+                Trustly
+            </a>
+            <ul>
+                <li><a href="/#features">Features</a></li>
+                <li><a href="/#commands">Commands</a></li>
+                <li><a href="/#faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="page-header">
+            <div class="page-label">Security</div>
+            <h1>Built on Trust</h1>
+            <p>Enterprise-grade security practices protecting your community and data</p>
+        </div>
+
+        <div class="security-grid">
+            <div class="security-card">
+                <div class="security-icon">🔒</div>
+                <h3>End-to-End Encryption</h3>
+                <p>All data transmitted between your server and our infrastructure is encrypted using TLS 1.3. Data at rest is encrypted with AES-256.</p>
+            </div>
+            <div class="security-card">
+                <div class="security-icon">⚡</div>
+                <h3>Real-Time Monitoring</h3>
+                <p>24/7 security monitoring with automated threat detection and instant alerts for suspicious activity or potential breaches.</p>
+            </div>
+            <div class="security-card">
+                <div class="security-icon">🛡️</div>
+                <h3>DDoS Protection</h3>
+                <p>Multi-layered DDoS mitigation with global CDN distribution ensuring service availability even under attack.</p>
+            </div>
+            <div class="security-card">
+                <div class="security-icon">🔍</div>
+                <h3>Regular Audits</h3>
+                <p>Quarterly security audits by independent third-party firms and continuous penetration testing to identify vulnerabilities.</p>
+            </div>
+            <div class="security-card">
+                <div class="security-icon">👥</div>
+                <h3>Access Controls</h3>
+                <p>Role-based access control (RBAC) with mandatory multi-factor authentication for all team members with system access.</p>
+            </div>
+            <div class="security-card">
+                <div class="security-icon">📊</div>
+                <h3>Audit Logging</h3>
+                <p>Comprehensive audit trails for all system actions, data access, and configuration changes with tamper-proof logging.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Our Security Infrastructure</h2>
+            <p>Trustly is built on a foundation of industry-leading security practices and technologies</p>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Data Protection</h3>
+            <p>Your data security is our top priority. We implement multiple layers of protection:</p>
+            <ul>
+                <li><strong>Encryption:</strong> TLS 1.3 in transit, AES-256 at rest</li>
+                <li><strong>Isolation:</strong> Complete data segregation between servers</li>
+                <li><strong>Redundancy:</strong> Geo-distributed backups with 99.999% durability</li>
+                <li><strong>Access Control:</strong> Zero-trust architecture with least-privilege access</li>
+                <li><strong>Data Minimization:</strong> We collect only what's absolutely necessary</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Application Security</h3>
+            <p>Our codebase undergoes rigorous security testing:</p>
+            <ul>
+                <li><strong>Code Review:</strong> Manual security review for all changes</li>
+                <li><strong>Automated Scanning:</strong> Continuous SAST and DAST testing</li>
+                <li><strong>Dependency Management:</strong> Automated vulnerability scanning and updates</li>
+                <li><strong>Security Headers:</strong> Comprehensive CSP, HSTS, and security headers</li>
+                <li><strong>Input Validation:</strong> Strict validation and sanitization of all inputs</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Incident Response</h3>
+            <p>Prepared for any security event with a comprehensive incident response plan:</p>
+            <ul>
+                <li><strong>Detection:</strong> Real-time alerting for security anomalies</li>
+                <li><strong>Response:</strong> Dedicated security team available 24/7</li>
+                <li><strong>Communication:</strong> Transparent disclosure within 72 hours of verified incidents</li>
+                <li><strong>Recovery:</strong> Tested disaster recovery procedures with RTO < 4 hours</li>
+                <li><strong>Post-Mortem:</strong> Detailed analysis and remediation for all incidents</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Compliance & Certifications</h2>
+            <p>We maintain compliance with major security and privacy standards</p>
+        </div>
+
+        <div class="compliance-badges">
+            <div class="badge">
+                <h4>GDPR</h4>
+                <p>Compliant</p>
+            </div>
+            <div class="badge">
+                <h4>CCPA</h4>
+                <p>Compliant</p>
+            </div>
+            <div class="badge">
+                <h4>SOC 2 Type II</h4>
+                <p>In Progress</p>
+            </div>
+            <div class="badge">
+                <h4>ISO 27001</h4>
+                <p>Planned 2026</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Responsible Disclosure</h2>
+            <p>We welcome security researchers to help us maintain the highest security standards</p>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Bug Bounty Program</h3>
+            <p>Found a security vulnerability? We want to hear from you:</p>
+            <ul>
+                <li><strong>Scope:</strong> All Trustly services and infrastructure</li>
+                <li><strong>Rewards:</strong> Recognition and compensation based on severity</li>
+                <li><strong>Response Time:</strong> Initial response within 24 hours</li>
+                <li><strong>Protection:</strong> Safe harbor for good-faith security research</li>
+            </ul>
+            <p>Report vulnerabilities to: support@hugolabs.eu</p>
+        </div>
+
+        <div class="section">
+            <h2>Security Best Practices</h2>
+            <p>Recommendations for server administrators using Trustly</p>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Configuration Recommendations</h3>
+            <ul>
+                <li>Use unique, strong passwords for server administrator accounts</li>
+                <li>Enable two-factor authentication on all moderator accounts</li>
+                <li>Regularly review and update bot permissions</li>
+                <li>Configure appropriate logging levels for audit trails</li>
+                <li>Limit bot access to only necessary channels</li>
+                <li>Regularly review ban submissions for accuracy</li>
+                <li>Keep your moderation team trained on security practices</li>
+                <li>Implement verification gates for new members</li>
+            </ul>
+        </div>
+
+        <div class="cta-box">
+            <h2>Questions About Security?</h2>
+            <p>Our security team is here to help. Reach out for security inquiries, vulnerability reports, or compliance questions.</p>
+            <a href="mailto:support@hugolabs.eu" class="btn-primary">Contact Security Team</a>
+        </div>
+
+        <div class="highlight-box">
+            <h3>Security Updates</h3>
+            <p>Stay informed about security updates and best practices:</p>
+            <ul>
+                <li>Subscribe to our security newsletter for important updates</li>
+                <li>Follow our status page at status.trustly.com</li>
+                <li>Join our Discord server for real-time security announcements</li>
+                <li>Review our security changelog regularly</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Trustly</h4>
+                <p>Professional Discord security made accessible for everyone.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="/#features">Features</a></li>
+                    <li><a href="/#commands">Commands</a></li>
+                    <li><a href="/#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://discord.gg/u6hue2shjx">Discord</a></li>
+                    <li><a href="/contact">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/security">Security</a></li>
+                    <li><a href="/guidelines">Guidelines</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Trustly. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

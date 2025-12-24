@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Guidelines - Trustly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #3B82F6;
+            --blue-light: #60A5FA;
+            --blue-dark: #2563EB;
+            --dark: #0A0A0A;
+            --darker: #050505;
+            --gray: #A1A1AA;
+            --border: #1F1F1F;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--blue-light);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(100px, -80px); }
+            66% { transform: translate(-80px, 100px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .content {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 150px 60px 100px;
+            z-index: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .page-label {
+            color: var(--blue-light);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .page-header h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--gray);
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 32px;
+            color: white;
+        }
+
+        .section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .section ul {
+            margin-left: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid var(--blue);
+            padding: 24px;
+            border-radius: 8px;
+            margin: 32px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 3px solid #EF4444;
+            padding: 24px;
+            border-radius: 8px;
+            margin: 32px 0;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+        }
+
+        footer {
+            position: relative;
+            border-top: 1px solid var(--border);
+            padding: 60px 60px 40px;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .footer-col p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--blue-light);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 120px 30px 60px;
+            }
+
+            .page-header h1 {
+                font-size: 40px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <div class="logo-icon">T</div>
+                Trustly
+            </a>
+            <ul>
+                <li><a href="/#features">Features</a></li>
+                <li><a href="/#commands">Commands</a></li>
+                <li><a href="/#faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="page-header">
+            <div class="page-label">Community</div>
+            <h1>Community Guidelines</h1>
+            <p>Standards for responsible use of Trustly</p>
+        </div>
+
+        <div class="section">
+            <h2>Our Mission</h2>
+            <p>Trustly exists to make Discord communities safer and more welcoming for everyone. These guidelines ensure our service is used responsibly and ethically to protect users while respecting rights and freedoms.</p>
+            <div class="highlight-box">
+                <p><strong>Core Principle:</strong> With great power comes great responsibility. We trust server administrators to use Trustly's tools fairly and in good faith.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Acceptable Use</h2>
+            
+            <h3>Trustly Should Be Used For</h3>
+            <ul>
+                <li>Protecting communities from harassment, spam, and malicious actors</li>
+                <li>Maintaining safe and welcoming spaces for legitimate users</li>
+                <li>Enforcing server rules and Discord's Terms of Service</li>
+                <li>Preventing raids, bot attacks, and coordinated abuse</li>
+                <li>Sharing information about genuine threats with other communities</li>
+                <li>Creating verification systems to reduce harmful behavior</li>
+            </ul>
+
+            <h3>Moderation Best Practices</h3>
+            <ul>
+                <li><strong>Be Consistent:</strong> Apply rules fairly to all members</li>
+                <li><strong>Be Transparent:</strong> Clearly communicate rules and consequences</li>
+                <li><strong>Be Proportionate:</strong> Match punishment severity to violations</li>
+                <li><strong>Be Patient:</strong> Give warnings before severe actions when appropriate</li>
+                <li><strong>Be Accountable:</strong> Review and appeal processes in good faith</li>
+                <li><strong>Be Collaborative:</strong> Work with your moderation team on decisions</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Prohibited Use</h2>
+            
+            <div class="warning-box">
+                <p><strong>Zero Tolerance:</strong> The following uses will result in immediate service termination and potential reporting to Discord.</p>
+            </div>
+
+            <h3>Never Use Trustly To</h3>
+            <ul>
+                <li><strong>Harass or Target Individuals:</strong> Do not use the global ban system to harass specific users or communities</li>
+                <li><strong>Discriminate:</strong> Do not ban users based on race, ethnicity, religion, gender, sexual orientation, disability, or other protected characteristics</li>
+                <li><strong>Silence Dissent:</strong> Do not use moderation tools to suppress legitimate criticism or disagreement</li>
+                <li><strong>Submit False Reports:</strong> Do not submit fabricated or exaggerated ban reports to the global database</li>
+                <li><strong>Abuse Power:</strong> Do not use moderation privileges for personal benefit or revenge</li>
+                <li><strong>Share Private Information:</strong> Do not use Trustly to dox or expose users' personal information</li>
+                <li><strong>Manipulate Systems:</strong> Do not attempt to game or abuse the global ban system</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Global Ban System Guidelines</h2>
+            
+            <h3>When to Submit Global Bans</h3>
+            <p>Only submit users to the global database for serious violations:</p>
+            <ul>
+                <li>Harassment, threats, or doxxing</li>
+                <li>Spam or malicious bot activity</li>
+                <li>Sharing illegal content</li>
+                <li>Raid participation or coordination</li>
+                <li>Scamming or phishing attempts</li>
+                <li>Severe or repeated Discord TOS violations</li>
+            </ul>
+
+            <h3>When NOT to Submit Global Bans</h3>
+            <p>Do not submit users for:</p>
+            <ul>
+                <li>Minor rule violations or first-time offenses</li>
+                <li>Personal disagreements or arguments</li>
+                <li>Off-topic messages or minor spam</li>
+                <li>Violating server-specific rules that aren't universal issues</li>
+                <li>Leaving your server or "drama"</li>
+                <li>Actions taken in other communities</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Documentation Required:</strong> Keep evidence of violations that warrant global bans. You may be asked to provide proof if a ban is appealed.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Fair Moderation Standards</h2>
+            
+            <h3>Investigation Before Action</h3>
+            <p>Before taking serious moderation action:</p>
+            <ul>
+                <li>Gather complete context of the situation</li>
+                <li>Review conversation history and previous warnings</li>
+                <li>Consider user intent and circumstances</li>
+                <li>Consult with other moderators when possible</li>
+                <li>Document your decision-making process</li>
+            </ul>
+
+            <h3>Progressive Discipline</h3>
+            <p>Use escalating consequences when appropriate:</p>
+            <ul>
+                <li><strong>First Offense:</strong> Warning or temporary mute</li>
+                <li><strong>Second Offense:</strong> Temporary ban (hours to days)</li>
+                <li><strong>Third Offense:</strong> Extended ban or permanent ban</li>
+                <li><strong>Severe Violations:</strong> Immediate permanent ban</li>
+            </ul>
+
+            <h3>Appeal Process</h3>
+            <p>Provide users with a fair appeal process:</p>
+            <ul>
+                <li>Clearly communicate how to appeal</li>
+                <li>Review appeals objectively</li>
+                <li>Consider reducing bans for reformed behavior</li>
+                <li>Explain decisions in appeal responses</li>
+                <li>Allow reasonable time for appeals (48-72 hours)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Data Privacy & Ethics</h2>
+            
+            <h3>Respect User Privacy</h3>
+            <ul>
+                <li>Only access user data necessary for moderation</li>
+                <li>Do not share user information outside your moderation team</li>
+                <li>Delete data when no longer needed</li>
+                <li>Follow data protection regulations (GDPR, CCPA)</li>
+                <li>Honor user data deletion requests</li>
+            </ul>
+
+            <h3>Transparent Automation</h3>
+            <ul>
+                <li>Inform users that automated moderation is in use</li>
+                <li>Review automated decisions regularly</li>
+                <li>Allow appeals of automated actions</li>
+                <li>Configure filters appropriately for your community</li>
+                <li>Don't rely solely on automation for serious actions</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Enforcement Actions</h2>
+            
+            <h3>Violations of These Guidelines</h3>
+            <p>If we determine you're violating these guidelines, we may:</p>
+            <ul>
+                <li><strong>Warning:</strong> First-time minor violations receive a warning</li>
+                <li><strong>Global Ban Removal:</strong> Remove your access to the global ban database</li>
+                <li><strong>Service Suspension:</strong> Temporarily disable Trustly on your server</li>
+                <li><strong>Permanent Ban:</strong> Permanently revoke access to Trustly services</li>
+                <li><strong>Discord Report:</strong> Report severe violations to Discord Trust & Safety</li>
+            </ul>
+
+            <h3>Appeal Our Decisions</h3>
+            <p>If you believe we've made an error:</p>
+            <ul>
+                <li>Contact support@hugolabs.eu with your case</li>
+                <li>Provide evidence supporting your position</li>
+                <li>We'll review within 5 business days</li>
+                <li>Our decision after review is final</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Reporting Violations</h2>
+            
+            <h3>Report Abuse</h3>
+            <p>If you witness abuse of Trustly or violations of these guidelines:</p>
+            <ul>
+                <li><strong>Email:</strong> support@hugolabs.eu</li>
+                <li><strong>Discord:</strong> Open a ticket in discord.gg/u6hue2shjx</li>
+                <li><strong>Include:</strong> Server ID, user ID, timestamps, and evidence</li>
+            </ul>
+
+            <p>We investigate all reports confidentially and take appropriate action.</p>
+
+            <div class="highlight-box">
+                <p><strong>Whistleblower Protection:</strong> We will not retaliate against good-faith reports of guideline violations, even if they involve your own community.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Community Standards</h2>
+            
+            <h3>Building Healthy Communities</h3>
+            <p>Trustly works best when used as part of a comprehensive community health strategy:</p>
+            <ul>
+                <li>Establish clear, written rules for your community</li>
+                <li>Train moderators on your policies and values</li>
+                <li>Foster positive culture through engagement, not just enforcement</li>
+                <li>Listen to community feedback and adapt</li>
+                <li>Lead by example with respectful behavior</li>
+                <li>Celebrate positive contributions and growth</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Updates to Guidelines</h2>
+            <p>We may update these guidelines to reflect evolving best practices and community needs. Material changes will be communicated via:</p>
+            <ul>
+                <li>Email to server administrators</li>
+                <li>In-bot notifications</li>
+                <li>Announcements on our Discord server</li>
+                <li>Updates on our website</li>
+            </ul>
+            <p>Continued use after updates constitutes acceptance of new guidelines.</p>
+        </div>
+
+        <div class="section">
+            <h2>Questions & Guidance</h2>
+            <p>Need help interpreting these guidelines or making a moderation decision?</p>
+            <ul>
+                <li><strong>Documentation:</strong> -</li>
+                <li><strong>Community:</strong> discord.gg/u6hue2shjx</li>
+                <li><strong>Support:</strong> support@hugolabs.eu</li>
+            </ul>
+            <p>We're here to help you use Trustly responsibly and effectively.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Trustly</h4>
+                <p>Professional Discord security made accessible for everyone.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="/#features">Features</a></li>
+                    <li><a href="/#commands">Commands</a></li>
+                    <li><a href="/#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://discord.gg/u6hue2shjx">Discord</a></li>
+                    <li><a href="/contact">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/security">Security</a></li>
+                    <li><a href="/guidelines">Guidelines</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Trustly. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

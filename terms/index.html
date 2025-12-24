@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Trustly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #3B82F6;
+            --blue-light: #60A5FA;
+            --blue-dark: #2563EB;
+            --dark: #0A0A0A;
+            --darker: #050505;
+            --gray: #A1A1AA;
+            --border: #1F1F1F;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--blue-light);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(100px, -80px); }
+            66% { transform: translate(-80px, 100px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--blue), var(--blue-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .content {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 150px 60px 100px;
+            z-index: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .page-label {
+            color: var(--blue-light);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .page-header h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: var(--gray);
+        }
+
+        .last-updated {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 16px 24px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 32px;
+            color: white;
+        }
+
+        .section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .section ul {
+            margin-left: 24px;
+            margin-bottom: 20px;
+        }
+
+        .section li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 3px solid var(--blue);
+            padding: 24px;
+            border-radius: 8px;
+            margin: 32px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+
+        footer {
+            position: relative;
+            border-top: 1px solid var(--border);
+            padding: 60px 60px 40px;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            font-size: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .footer-col p {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--blue-light);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 120px 30px 60px;
+            }
+
+            .page-header h1 {
+                font-size: 40px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+    </div>
+
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <div class="logo-icon">T</div>
+                Trustly
+            </a>
+            <ul>
+                <li><a href="/#features">Features</a></li>
+                <li><a href="/#commands">Commands</a></li>
+                <li><a href="/#faq">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="page-header">
+            <div class="page-label">Legal</div>
+            <h1>Terms of Service</h1>
+            <p>Agreement for using Trustly services</p>
+        </div>
+
+        <div class="last-updated">
+            Last Updated: December 24, 2025
+        </div>
+
+        <div class="section">
+            <h2>Agreement to Terms</h2>
+            <p>By adding Trustly to your Discord server or using our services, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our services.</p>
+            <p>These Terms constitute a legally binding agreement between you (server owner, administrator, or user) and Trustly ("we," "us," or "our").</p>
+            <div class="highlight-box">
+                <p><strong>Important:</strong> You must be at least 13 years old (or the minimum age in your jurisdiction) to use Discord and our services.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Description of Service</h2>
+            <p>Trustly is a Discord bot that provides:</p>
+            <ul>
+                <li>Automated moderation and content filtering</li>
+                <li>Global ban database access and sharing</li>
+                <li>AI-powered threat detection</li>
+                <li>Anti-raid protection systems</li>
+                <li>Moderation tools and analytics</li>
+                <li>User verification systems</li>
+            </ul>
+            <p>The service is provided free of charge. We reserve the right to modify, suspend, or discontinue any aspect of the service at any time with or without notice.</p>
+        </div>
+
+        <div class="section">
+            <h2>User Responsibilities</h2>
+            
+            <h3>Server Owners and Administrators</h3>
+            <p>As a server owner or administrator using Trustly, you agree to:</p>
+            <ul>
+                <li>Use the bot in compliance with Discord's Terms of Service and Community Guidelines</li>
+                <li>Configure the bot responsibly and in accordance with your server's needs</li>
+                <li>Not abuse the global ban system by submitting false reports</li>
+                <li>Review and verify ban reports before submission to the global database</li>
+                <li>Respond to appeals and disputes regarding moderation actions in good faith</li>
+                <li>Maintain appropriate permissions and access controls</li>
+                <li>Inform server members about the use of automated moderation tools</li>
+            </ul>
+
+            <h3>All Users</h3>
+            <p>All users interacting with Trustly agree to:</p>
+            <ul>
+                <li>Not attempt to bypass, disable, or circumvent bot security measures</li>
+                <li>Not reverse engineer, decompile, or attempt to extract source code</li>
+                <li>Not use the bot for illegal activities or to violate others' rights</li>
+                <li>Not spam, abuse, or overload the bot with excessive requests</li>
+                <li>Report bugs and vulnerabilities responsibly</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Acceptable Use Policy</h2>
+            <p>You may not use Trustly to:</p>
+            <ul>
+                <li>Harass, threaten, or harm others</li>
+                <li>Spread misinformation or engage in coordinated manipulation</li>
+                <li>Violate intellectual property rights</li>
+                <li>Distribute malware or malicious content</li>
+                <li>Engage in or promote illegal activities</li>
+                <li>Impersonate others or misrepresent your identity</li>
+                <li>Collect or harvest user data without consent</li>
+                <li>Interfere with the operation of the service</li>
+            </ul>
+            <p>Violation of this Acceptable Use Policy may result in immediate service termination and reporting to Discord.</p>
+        </div>
+
+        <div class="section">
+            <h2>Global Ban System</h2>
+            
+            <h3>Participation</h3>
+            <p>By using Trustly's ban features, you agree to participate in our Global Ban System, which:</p>
+            <ul>
+                <li>Shares anonymized ban information with other servers using Trustly</li>
+                <li>Alerts servers when flagged users attempt to join</li>
+                <li>Allows servers to make informed decisions about member access</li>
+            </ul>
+
+            <h3>Ban Submissions</h3>
+            <p>When submitting a ban to the global database, you certify that:</p>
+            <ul>
+                <li>The ban is for a legitimate violation of your server rules or Discord TOS</li>
+                <li>You have evidence supporting the ban decision</li>
+                <li>The ban is not based on personal disputes or discriminatory reasons</li>
+                <li>You understand the ban may affect the user's ability to join other servers</li>
+            </ul>
+
+            <h3>False Reports</h3>
+            <p>Submitting false or malicious ban reports is strictly prohibited and may result in:</p>
+            <ul>
+                <li>Removal from the Global Ban System</li>
+                <li>Service suspension or termination</li>
+                <li>Reporting to Discord for Terms of Service violations</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Appeals and Disputes</h2>
+            <p>Users who believe they have been wrongly flagged may:</p>
+            <ul>
+                <li>Contact the originating server directly to appeal the ban</li>
+                <li>Submit an appeal through our appeals portal with supporting evidence</li>
+                <li>Request review by our moderation team if server appeal is unsuccessful</li>
+            </ul>
+            <p>We investigate all appeals fairly and may remove flags that are found to be unjustified. Our decision on appeals is final.</p>
+        </div>
+
+        <div class="section">
+            <h2>Intellectual Property</h2>
+            <p>All rights, title, and interest in Trustly, including all software, algorithms, branding, and content, are owned by us or our licensors. You are granted a limited, non-exclusive, non-transferable license to use the service.</p>
+            <p>You may not:</p>
+            <ul>
+                <li>Copy, modify, or create derivative works of our software</li>
+                <li>Use our branding without express permission</li>
+                <li>Claim ownership of any part of the service</li>
+                <li>Sell, sublicense, or transfer your access to others</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Disclaimers and Limitations</h2>
+            
+            <h3>Service Availability</h3>
+            <p>Trustly is provided "as is" and "as available" without warranties of any kind. We do not guarantee:</p>
+            <ul>
+                <li>Uninterrupted or error-free operation</li>
+                <li>Complete accuracy of AI moderation or threat detection</li>
+                <li>Prevention of all harmful content or users</li>
+                <li>Compatibility with all server configurations</li>
+            </ul>
+
+            <h3>No Liability</h3>
+            <p>To the fullest extent permitted by law, we are not liable for:</p>
+            <ul>
+                <li>Indirect, incidental, or consequential damages</li>
+                <li>Loss of data, profits, or business opportunities</li>
+                <li>Damages resulting from use or inability to use the service</li>
+                <li>Actions or content of other users</li>
+                <li>Unauthorized access or alteration of your data</li>
+            </ul>
+            <p>Our total liability shall not exceed $100 USD or the amount paid to us in the past 12 months (currently $0 for free service).</p>
+
+            <h3>Indemnification</h3>
+            <p>You agree to indemnify and hold us harmless from claims, damages, and expenses arising from your use of the service, violation of these Terms, or violation of any third-party rights.</p>
+        </div>
+
+        <div class="section">
+            <h2>Termination</h2>
+            <p>We reserve the right to suspend or terminate your access to Trustly at any time for:</p>
+            <ul>
+                <li>Violation of these Terms or our policies</li>
+                <li>Fraudulent, abusive, or illegal activity</li>
+                <li>Endangering the security or integrity of the service</li>
+                <li>Any reason at our sole discretion</li>
+            </ul>
+            <p>You may stop using Trustly at any time by removing the bot from your server. Upon termination:</p>
+            <ul>
+                <li>Your access to the service ends immediately</li>
+                <li>Server-specific data may be deleted after 30 days</li>
+                <li>Global ban submissions remain in the database for continued protection</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Changes to Terms</h2>
+            <p>We may modify these Terms at any time. Material changes will be announced through:</p>
+            <ul>
+                <li>In-bot notifications to server administrators</li>
+                <li>Website updates and blog posts</li>
+                <li>Discord server announcements</li>
+            </ul>
+            <p>Continued use of Trustly after changes take effect constitutes acceptance of the new Terms. If you do not agree to changes, you must stop using the service.</p>
+        </div>
+
+        <div class="section">
+            <h2>Governing Law and Disputes</h2>
+            <p>These Terms are governed by the laws of [Your Jurisdiction], without regard to conflict of law principles.</p>
+            <p>Any disputes shall be resolved through:</p>
+            <ul>
+                <li>Good faith negotiation between parties</li>
+                <li>Binding arbitration if negotiation fails</li>
+                <li>Courts of [Your Jurisdiction] as a last resort</li>
+            </ul>
+            <p>You waive any right to participate in class action lawsuits or class-wide arbitration.</p>
+        </div>
+
+        <div class="section">
+            <h2>Miscellaneous</h2>
+            <ul>
+                <li><strong>Entire Agreement:</strong> These Terms constitute the entire agreement between you and Trustly</li>
+                <li><strong>Severability:</strong> If any provision is found invalid, the remaining provisions continue in effect</li>
+                <li><strong>No Waiver:</strong> Our failure to enforce any right does not waive that right</li>
+                <li><strong>Assignment:</strong> You may not assign these Terms; we may assign them without restriction</li>
+                <li><strong>Discord Terms:</strong> These Terms supplement, not replace, Discord's Terms of Service</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Contact Information</h2>
+            <p>Questions about these Terms? Contact us:</p>
+            <ul>
+                <li><strong>Email:</strong> support@hugolabs.eu</li>
+                <li><strong>Support:</strong> soon</li>
+                <li><strong>Discord:</strong> discord.gg/u6hue2shjx</li>
+                <li><strong>Address:</strong> Discord Street 26</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Trustly</h4>
+                <p>Professional Discord security made accessible for everyone.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="/#features">Features</a></li>
+                    <li><a href="/#commands">Commands</a></li>
+                    <li><a href="/#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://discord.gg/u6hue2shjx">Discord</a></li>
+                    <li><a href="/contact">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms of Service</a></li>
+                    <li><a href="/security">Security</a></li>
+                    <li><a href="/guidelines">Guidelines</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Trustly. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
